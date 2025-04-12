@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: Select target environment. Environment names in the list are configured GitHub environments.
+        description: Select target environment. Environment names in the list are configured GitHub environments. This is needed for ODIC authentication for fed cred (example repo:rob893/iot-remote-light-switch:environment:Development)
         type: choice
         options:
           - Development
@@ -48,7 +48,7 @@ jobs:
         with:
           scope: resourcegroup
           resourceGroupName: ${{ env.RESOURCE_GROUP_NAME }}
-          template: ./CICD/Azure/resource-group-scope.bicep
+          template: ./CI/Azure/resource-group-scope.bicep
           deploymentMode: Validate
           parameters: environment=${{ inputs.environment }}
 
