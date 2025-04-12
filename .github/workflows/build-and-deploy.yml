@@ -13,6 +13,10 @@ on:
   push:
     branches: [master]
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     name: Build Project
@@ -52,10 +56,21 @@ jobs:
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'rherber-light-switch-api'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AZURE_APP_SERVICE_PUBLISH_PROFILE }}
           package: light-switch-api-b${{ github.run_number }}
+
+      - name: logout
+        run: |
+          az logout
