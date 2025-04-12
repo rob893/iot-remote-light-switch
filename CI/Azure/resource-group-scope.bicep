@@ -21,7 +21,7 @@ resource existingPlan 'Microsoft.Web/serverfarms@2022-03-01' existing = {
 
 @description('The App Service')
 resource iotLightSwitchApiAppService 'Microsoft.Web/sites@2022-09-01' = {
-  name: 'iotlightswitch-api-uw-wa-${environmentSuffix}'
+  name: 'rherber-iotlightswitch-api-uw-wa-${environmentSuffix}'
   location: location
   tags: tags
   kind: 'app'
@@ -73,7 +73,7 @@ resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01'
 
 @description('The Application Insights')
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: 'iotlightswitch-uw-ai-${environmentSuffix}'
+  name: 'rherber-iotlightswitch-uw-ai-${environmentSuffix}'
   location: location
   tags: tags
   kind: 'web'

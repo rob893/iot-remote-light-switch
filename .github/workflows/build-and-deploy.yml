@@ -67,7 +67,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'rherber-light-switch-api'
+          app-name: 'rherber-iotlightswitch-api-uw-wa-d'
           slot-name: 'production'
           package: light-switch-api-b${{ github.run_number }}
 
