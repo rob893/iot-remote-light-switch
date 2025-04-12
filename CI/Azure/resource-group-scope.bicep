@@ -7,9 +7,6 @@ param location string = resourceGroup().location
 
 var environmentSuffix = toLower(substring(environment, 0, 1))
 
-@description('The App Service Plan SKU name.')
-var appServicePlanSkuName = (environment == 'Production') ? 'B1' : 'B1'
-
 var tags = {
   Environment: environment
   Creator: 'Robert Herber'
@@ -17,26 +14,9 @@ var tags = {
 
 // Resources
 @description('The App Service Plan for web app')
-resource appServicePlanWA 'Microsoft.Web/serverfarms@2022-09-01' = {
+resource existingPlan 'Microsoft.Web/serverfarms@2022-03-01' existing = {
   name: 'rherber-development'
-  location: location
-  sku: {
-    name: appServicePlanSkuName
-  }
-  tags: tags
-  kind: 'app'
-  properties: {
-    perSiteScaling: false
-    elasticScaleEnabled: false
-    maximumElasticWorkerCount: 1
-    isSpot: false
-    reserved: false
-    isXenon: false
-    hyperV: false
-    targetWorkerCount: 0
-    targetWorkerSizeId: 0
-    zoneRedundant: false
-  }
+  scope: resourceGroup('rherber-rg-uw-d')
 }
 
 @description('The App Service')
@@ -49,7 +29,7 @@ resource iotLightSwitchApiAppService 'Microsoft.Web/sites@2022-09-01' = {
     type: 'SystemAssigned'
   }
   properties: {
-    serverFarmId: appServicePlanWA.id
+    serverFarmId: existingPlan.id
     httpsOnly: true
     publicNetworkAccess: 'Enabled'
     redundancyMode: 'None'
