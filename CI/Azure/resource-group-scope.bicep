@@ -16,7 +16,7 @@ var tags = {
 @description('The App Service Plan for web app')
 resource existingPlan 'Microsoft.Web/serverfarms@2022-03-01' existing = {
   name: 'rherber-development'
-  scope: resourceGroup('rherber-rg-uw-d')
+  scope: resourceGroup()
 }
 
 @description('The App Service')
@@ -66,10 +66,9 @@ resource iotLightSwitchApiAppService 'Microsoft.Web/sites@2022-09-01' = {
 }
 
 @description('The Workspace for Application Insights')
-resource workspaceForApplicationInsights 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
-  name: 'iotlightswitch-uw-ws-${environmentSuffix}'
-  location: location
-  tags: tags
+resource existingWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+  name: 'rherber-logworkspace-uw-lws-d'
+  scope: resourceGroup()
 }
 
 @description('The Application Insights')
@@ -83,7 +82,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
     publicNetworkAccessForIngestion: 'Enabled'
     publicNetworkAccessForQuery: 'Enabled'
     IngestionMode: 'LogAnalytics'
-    WorkspaceResourceId: workspaceForApplicationInsights.id
+    WorkspaceResourceId: existingWorkspace.id
     SamplingPercentage: 100
   }
 }

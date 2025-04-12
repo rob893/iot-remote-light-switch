@@ -37,7 +37,7 @@ jobs:
         id: set-env
         run: |
           if [ "${{ github.event.inputs.environment }}" == "Development" ]; then
-            echo "RESOURCE_GROUP_NAME=iotlightswitch-rg-uw-d" >> $GITHUB_ENV
+            echo "RESOURCE_GROUP_NAME=rherber-rg-uw-d" >> $GITHUB_ENV
           fi
 
       - name: Print Resource Group Name
