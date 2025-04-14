@@ -10,13 +10,20 @@ app.MapGet("/lightSwitchState", () =>
 })
 .WithName("GetLightSwitchState");
 
-app.MapPost("/lightSwitchState/toggle", () =>
+app.MapPost("/lightSwitchState/toggle", (ToggleRequest request) =>
 {
+    string correctPassword = app.Configuration["Password"] ?? throw new Exception("Password not set in config");
+
+    if (request.Password != correctPassword)
+    {
+        return Results.Unauthorized();
+    }
+
     var currStatus = LoadStatus();
     var newStatus = !currStatus;
     SaveStatus(newStatus);
 
-    return newStatus;
+    return Results.Ok(newStatus);
 })
 .WithName("ToggleLightSwitchState");
 
@@ -42,3 +49,5 @@ static bool LoadStatus()
 
     return loadedFlag;
 }
+
+record ToggleRequest(string Password);
