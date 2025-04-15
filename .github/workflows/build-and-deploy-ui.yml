@@ -2,6 +2,8 @@ name: Build and Deploy UI
 
 on:
   push:
+    paths:
+      - 'light-switch-ui/**'
     branches: [master]
 
 permissions:
@@ -11,9 +13,6 @@ jobs:
   build:
     name: Build Project
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./light-switch-ui
 
     steps:
       - name: Checkout repo
@@ -33,16 +32,16 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install packages
-        run: npm i
+        run: cd light-switch-ui && npm i
 
       - name: Build project
-        run: npm run build
+        run: cd light-switch-ui && npm run build
 
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
           name: light-switch-ui-b${{ github.run_number }}
-          path: ./dist
+          path: ./light-switch-ui/dist
 
   deploy-github-pages:
     name: Deploy to Github Pages

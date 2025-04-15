@@ -11,6 +11,8 @@ name: Build and Deploy
 
 on:
   push:
+    paths:
+      - 'LightSwitchApi/**'
     branches: [master]
 
 permissions:
