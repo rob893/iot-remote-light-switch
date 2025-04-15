@@ -14,10 +14,10 @@ function App() {
 
   const fetchLightState = async () => {
     try {
-      const response = await fetch('/lightSwitchState');
+      const response = await fetch('https://rherber-iotlightswitch-api-uw-wa-d.azurewebsites.net/lightSwitchState');
       const data = await response.json();
       setLightState(data);
-    } catch (err) {
+    } catch {
       setError('Failed to fetch light state');
     } finally {
       setIsLoading(false);
@@ -32,11 +32,14 @@ function App() {
 
     setIsLoading(true);
     try {
-      const response = await fetch('/lightSwitchState/toggle', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
-      });
+      const response = await fetch(
+        'https://rherber-iotlightswitch-api-uw-wa-d.azurewebsites.net/lightSwitchState/toggle',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        }
+      );
 
       if (!response.ok) {
         throw new Error('Invalid password or server error');
@@ -46,7 +49,7 @@ function App() {
       setLightState(data);
       setError('');
     } catch (err) {
-      setError((err as any).message);
+      setError((err as Error).message);
     } finally {
       setIsLoading(false);
     }
