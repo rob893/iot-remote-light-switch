@@ -1,1 +1,0 @@
-# iot-remote-light-switch
